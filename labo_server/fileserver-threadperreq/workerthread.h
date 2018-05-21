@@ -1,4 +1,7 @@
 #ifndef WORKERTHREAD_H
 #define WORKERTHREAD_H
 
+
+
+
 #endif // WORKERTHREAD_H
