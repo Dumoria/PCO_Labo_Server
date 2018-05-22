@@ -20,6 +20,6 @@ void RequestDispatcherThread::run()
         if (hasDebugLog)
             qDebug() << "Got a request '" << requ.getFilePath() << "', starting new WorkerThread...";
 
-        workersStarted.push_back(new WorkerThread(&requ, responses));
+        workersStarted.push_back(new WorkerThread(&requ, responses, hasDebugLog));
     }
 }

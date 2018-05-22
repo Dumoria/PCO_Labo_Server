@@ -14,7 +14,7 @@ class WorkerThread: public QThread
     Q_OBJECT
 
 public:
-    WorkerThread(Request* request,  AbstractBuffer<Response>* responses): request(request), responses(responses) {
+    WorkerThread(Request* request,  AbstractBuffer<Response>* responses, bool hasDebugLog): request(request), responses(responses), hasDebugLog(hasDebugLog) {
 
         //qRegisterMetaType<request>("request");
     }
@@ -25,7 +25,7 @@ protected:
 private:
    AbstractBuffer<Response>* responses;
    Request* request;
-    //bool hasDebugLog;
+   bool hasDebugLog;
 
 };
 
