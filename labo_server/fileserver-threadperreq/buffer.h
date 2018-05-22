@@ -3,73 +3,55 @@
 
 #include "abstractbuffer.h"
 #include <QSemaphore>
-#include <list>
 
-template<typename T>
-class Buffer : public AbstractBuffer<T> {
-private:
-    std::list<T> buffer;
+const int NoInitTamponN = 10;
+
+/* Cette classe représente le buffer de requêtes/réponses
+ * (voir support de cours pour de plus amples informations)
+ */
+template<typename T> class Buffer : public AbstractBuffer<T> {
 
 protected:
-  QSemaphore mutex;
-  QSemaphore fifo;
-  QSemaphore writer;
-
-  int nbReaders;
+    T *elements;
+    int writePointer;
+    int readPointer;
+    int bufferSize;
+    QSemaphore mutex, waitNotFull, waitNotEmpty;
 
 public:
-
-  Buffer() :
-    mutex(1),
-    fifo(1),
-    writer(1),
-    nbReaders(0) {}
-
-  void lockReading() {
-    fifo.acquire();
-    mutex.acquire();
-    nbReaders++;
-    if (nbReaders==1) {
-      writer.acquire();
+    Buffer(unsigned int size) : mutex(1), waitNotFull(size) {
+        if ((elements = new T[size]) != 0) {
+            writePointer = readPointer = 0;
+            bufferSize = size;
+            return;
+        }
+        throw NoInitTamponN;
     }
-    mutex.release();
-    fifo.release();
-  }
 
-  void unlockReading() {
-    mutex.acquire();
-    nbReaders--;
-    if (nbReaders==0) {
-      writer.release();
+    virtual ~Buffer() {
+        delete[] elements;
     }
-    mutex.release();
-  }
 
-  void lockWriting() {
-    fifo.acquire();
-    writer.acquire();
-  }
+    virtual void put(T item) {
+        waitNotFull.acquire();
+        mutex.acquire();
+        elements[writePointer] = item;
+        writePointer = (writePointer + 1) % bufferSize;
+        waitNotEmpty.release();
+        mutex.release();
+    }
 
-  void unlockWriting() {
-    writer.release();
-    fifo.release();
-  }
-
-  void put(T item){
-      lockWriting();
-      buffer.push_back(item);
-      unlockWriting();
-
-  }
-
-  T get(){
-      lockReading();
-      T tmp = buffer.front();
-      buffer.pop_front();
-      unlockReading();
-      return tmp;
-  }
-
+    virtual T get(void) {
+        T item;
+        waitNotEmpty.acquire();
+        mutex.acquire();
+        item = elements[readPointer];
+        readPointer = (readPointer + 1) % bufferSize;
+        waitNotFull.release();
+        mutex.release();
+        return item;
+    }
 };
+
 
 #endif // BUFFER_H

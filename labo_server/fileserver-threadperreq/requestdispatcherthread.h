@@ -9,25 +9,26 @@
 #include "workerthread.h"
 #include <list>
 
+
+/* Cette classe permet de dispatcher les requêtes
+ * sur plusieurs threads afin de ne pas surcharger
+ * un seul thread
+ */
 class RequestDispatcherThread: public QThread
 {
     Q_OBJECT
 
-
 private:
-    AbstractBuffer<Request>* requests;
-    AbstractBuffer<Response>* responses;
-    std::list<WorkerThread*> workersStarted;
-
-    bool hasDebugLog;
+    AbstractBuffer<Request>* requests;          //Buffer de requêtes en attente
+    AbstractBuffer<Response>* responses;        //Buffer de réponses en attente (pour transmettre au workers)
+    std::list<WorkerThread*> workersStarted;    //Liste des workerThread encore actifs (pour les kill)
+    bool hasDebugLog;                           //Variable utilisée pour obtenir des logs pendant le debugging
 
 
 public:
-    RequestDispatcherThread(AbstractBuffer<Request>* requests, AbstractBuffer<Response>* responses, bool hasDebugLog): requests(requests), responses(responses), hasDebugLog(hasDebugLog) {
-        if (hasDebugLog)
-            qDebug() << "Created request dispatcher thread";
-        qRegisterMetaType<Request>("Request");
-    }
+    RequestDispatcherThread(AbstractBuffer<Request>* requests, AbstractBuffer<Response>* responses, bool hasDebugLog);
+
+    virtual ~RequestDispatcherThread();
 
 protected:
     void run();

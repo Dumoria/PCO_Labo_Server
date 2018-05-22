@@ -1,12 +1,17 @@
-
 #include "workerthread.h"
-#include "response.h"
-#include "requesthandler.h"
-#include <QDebug>
+
+
+WorkerThread::WorkerThread(Request* request,  AbstractBuffer<Response>* responses, bool hasDebugLog): request(request), responses(responses), hasDebugLog(hasDebugLog) {
+    requestHandler = new RequestHandler(*request, hasDebugLog);     //Création d'un nouveau gestionnaire de requête
+}
 
 void WorkerThread::run()
 {
-   RequestHandler requestHandler(*request, hasDebugLog);
-   Response response = requestHandler.handle();
-   responses->put(response);
+   Response response = requestHandler->handle();                    //Récupération de la réponse à la requête
+   responses->put(response);                                        //Transmission de la réponse au buffer de réponse
+}
+
+
+WorkerThread::~WorkerThread() {
+
 }
