@@ -2,6 +2,8 @@
 #define WORKERTHREAD_H
 
 
+class WorkerThread{
 
+}
 
 #endif // WORKERTHREAD_H
