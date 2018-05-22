@@ -6,6 +6,8 @@
 #include <QDebug>
 #include "abstractbuffer.h"
 #include "response.h"
+#include "workerthread.h"
+#include <list>
 
 class RequestDispatcherThread: public QThread
 {
@@ -15,7 +17,7 @@ class RequestDispatcherThread: public QThread
 private:
     AbstractBuffer<Request>* requests;
     AbstractBuffer<Response>* responses;
-    List<WorkerThread*> wokersStarted;
+    std::list<WorkerThread*> workersStarted;
 
     bool hasDebugLog;
 

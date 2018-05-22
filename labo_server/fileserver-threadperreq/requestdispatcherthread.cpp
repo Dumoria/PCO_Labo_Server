@@ -1,5 +1,6 @@
 #include "requestdispatcherthread.h"
 #include "response.h"
+#include "workerthread.h"
 #include <QDebug>
 
 void RequestDispatcherThread::run()
@@ -19,6 +20,6 @@ void RequestDispatcherThread::run()
         if (hasDebugLog)
             qDebug() << "Got a request '" << requ.getRequest().getFilePath() << "', starting new WorkerThread...";
 
-        workersStarted.add(new Workerthread(requ, responses));
+        workersStarted.add(new WorkerThread(requ, responses));
     }
 }

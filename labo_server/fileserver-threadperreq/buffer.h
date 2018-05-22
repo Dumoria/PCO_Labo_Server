@@ -1,11 +1,13 @@
 #ifndef BUFFER_H
 #define BUFFER_H
 
+#include "abstractbuffer.h"
+#include <list>
 
 
-class Buffer : public AbstractBuffer {
+class Buffer : public  AbstractBuffer {
 private:
-    List<T> buffer;
+    std::list<T> buffer;
 
 protected:
   QSemaphore mutex;
