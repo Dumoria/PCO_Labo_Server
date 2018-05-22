@@ -8,7 +8,7 @@ void RequestDispatcherThread::run()
     while(true) {
 
         for(WorkerThread* worker : workersStarted){
-            if(worker->isFinished){
+            if(worker->isFinished()){
                 worker->terminate();
                 workersStarted.remove(worker);
             }
@@ -18,8 +18,8 @@ void RequestDispatcherThread::run()
             qDebug() << "Waiting for requests...";
         Request requ = requests->get();   // block until a request is available
         if (hasDebugLog)
-            qDebug() << "Got a request '" << requ.getRequest().getFilePath() << "', starting new WorkerThread...";
+            qDebug() << "Got a request '" << requ.getFilePath() << "', starting new WorkerThread...";
 
-        workersStarted.add(new WorkerThread(requ, responses));
+        workersStarted.push_back(new WorkerThread(&requ, responses));
     }
 }

@@ -5,7 +5,7 @@
 
 void WorkerThread::run()
 {
-
-   Response response(*request, "la ou il y aura la reponse");
-   responses.put(response);
+    QString a = "la ou il y aura la reponse";
+   Response response(*request, a);
+   responses->put(response);
 }

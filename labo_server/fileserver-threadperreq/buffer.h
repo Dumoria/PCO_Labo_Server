@@ -2,10 +2,11 @@
 #define BUFFER_H
 
 #include "abstractbuffer.h"
+#include <QSemaphore>
 #include <list>
 
-
-class Buffer : public  AbstractBuffer {
+template<typename T>
+class Buffer : public AbstractBuffer<T> {
 private:
     std::list<T> buffer;
 
@@ -18,8 +19,7 @@ protected:
 
 public:
 
-
-  ReaderWriterEqual() :
+  Buffer() :
     mutex(1),
     fifo(1),
     writer(1),
@@ -64,7 +64,8 @@ public:
 
   T get(){
       lockReading();
-      T tmp = buffer.pop_back();
+      T tmp = buffer.front();
+      buffer.pop_front();
       unlockReading();
       return tmp;
   }

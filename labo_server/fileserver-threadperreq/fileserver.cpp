@@ -54,6 +54,7 @@
 #include "filereader.h"
 #include "response.h"
 #include "request.h"
+#include "buffer.h"
 
 FileServer::FileServer(quint16 port, bool debug, QObject *parent) :
     QObject(parent),
@@ -63,8 +64,8 @@ FileServer::FileServer(quint16 port, bool debug, QObject *parent) :
 {
 
     //Three lines added
-    requests = new buffer();
-    responses = new buffer();
+    requests = new Buffer<Request>();
+    responses = new Buffer<Response>();
     reqDispatcher = new RequestDispatcherThread(requests, responses, hasDebugLog);
     //End of new lines
     respDispatcher = new ResponseDispatcherThread(responses, hasDebugLog);
