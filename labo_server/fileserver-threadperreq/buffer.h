@@ -11,9 +11,12 @@ protected:
   QSemaphore mutex;
   QSemaphore fifo;
   QSemaphore writer;
+
   int nbReaders;
 
 public:
+
+
   ReaderWriterEqual() :
     mutex(1),
     fifo(1),

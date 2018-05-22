@@ -11,8 +11,17 @@ class RequestDispatcherThread: public QThread
 {
     Q_OBJECT
 
+
+private:
+    AbstractBuffer<Request>* requests;
+    AbstractBuffer<Response>* responses;
+    List<WorkerThread*> wokersStarted;
+
+    bool hasDebugLog;
+
+
 public:
-    RequestDispatcherThread(AbstractBuffer<Request>* requests, bool hasDebugLog): requests(requests), hasDebugLog(hasDebugLog) {
+    RequestDispatcherThread(AbstractBuffer<Request>* requests, AbstractBuffer<Response>* responses, bool hasDebugLog): requests(requests), responses(responses), hasDebugLog(hasDebugLog) {
         if (hasDebugLog)
             qDebug() << "Created request dispatcher thread";
         qRegisterMetaType<Request>("Request");
@@ -21,12 +30,6 @@ public:
 protected:
     void run();
 
-private:
-    AbstractBuffer<Request>* requests;
-    bool hasDebugLog;
-
-signals:
-    void responseReady(Request request);
 };
 
 
