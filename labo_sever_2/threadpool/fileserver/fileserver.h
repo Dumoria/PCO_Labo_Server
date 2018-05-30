@@ -56,6 +56,7 @@
 #include <QString>
 #include "responsedispatcherthread.h"
 #include "response.h"
+#include "requestdispatcherthread.h"
 
 QT_FORWARD_DECLARE_CLASS(QWebSocketServer)
 QT_FORWARD_DECLARE_CLASS(QWebSocket)
@@ -80,7 +81,7 @@ public slots:
 private:
     QWebSocketServer *websocketServer;
     QMap<QString, QWebSocket *> clients;
-    RequestDispatcherThread* reqDispatcher; // TODO
+    RequestDispatcherThread* reqDispatcher;
     ResponseDispatcherThread* respDispatcher;
     AbstractBuffer<Request>* requests;
     AbstractBuffer<Response>* responses;

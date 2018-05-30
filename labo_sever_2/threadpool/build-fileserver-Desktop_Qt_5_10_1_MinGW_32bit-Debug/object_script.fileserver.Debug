@@ -1,0 +1,13 @@
+INPUT(
+./debug\main.o
+./debug\fileserver.o
+./debug\filereader.o
+./debug\requesthandler.o
+./debug\responsedispatcherthread.o
+./debug\requestdispatcherthread.o
+./debug\workerthread.o
+./debug\moc_fileserver.o
+./debug\moc_responsedispatcherthread.o
+./debug\moc_requestdispatcherthread.o
+./debug\moc_workerthread.o
+);
