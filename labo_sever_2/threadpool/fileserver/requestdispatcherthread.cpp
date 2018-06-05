@@ -6,7 +6,7 @@
 #include "threadpool.h"
 
 RequestDispatcherThread::RequestDispatcherThread(AbstractBuffer<Request>* requests, AbstractBuffer<Response>* responses, bool hasDebugLog): requests(requests), responses(responses), hasDebugLog(hasDebugLog) {
-    threadPool = new ThreadPool(10, hasDebugLog);
+    threadPool = new ThreadPool(5, hasDebugLog);
     if (hasDebugLog)
         qDebug() << "Created request dispatcher thread";
 }

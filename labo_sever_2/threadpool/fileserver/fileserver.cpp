@@ -63,8 +63,8 @@ FileServer::FileServer(quint16 port, bool debug, QObject *parent) :
     hasDebugLog(debug)
 {
 
-    requests = new Buffer<Request>(15);                                                 //Création d'un nouveau buffer de requêtes
-    responses = new Buffer<Response>(15);                                               //Création d'un nouveau buffer de réponses
+    requests = new Buffer<Request>(18);                                                 //Création d'un nouveau buffer de requêtes
+    responses = new Buffer<Response>(18);                                               //Création d'un nouveau buffer de réponses
     reqDispatcher = new RequestDispatcherThread(requests, responses, hasDebugLog);      //Création d'un nouveau dispatcher de requêts
     reqDispatcher->start();                                                             //Lancer le dispatcher de requêtes
 
