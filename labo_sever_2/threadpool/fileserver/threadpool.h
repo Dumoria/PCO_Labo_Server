@@ -28,7 +28,8 @@ public:
 
     }
 
-    ThreadPool(int maxThreadCount, bool hasDebugLog,  AbstractBuffer<Response>* responses) : maxThreadCount(maxThreadCount), hasDebugLog(hasDebugLog), threadPool(), availableThreads(), responses(responses), wait(0), mutex(){
+    ThreadPool(int maxThreadCount, bool hasDebugLog,  AbstractBuffer<Response>* responses) : maxThreadCount(maxThreadCount), hasDebugLog(hasDebugLog), responses(responses), wait(0), mutex(){
+
     }
 
     ~ThreadPool(){                                                  //ATTENTION

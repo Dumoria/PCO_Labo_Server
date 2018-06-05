@@ -211,7 +211,6 @@ debug/moc_fileserver.cpp: C:/Qt/5.10.1/mingw53_32/include/QtCore/QObject \
 		C:/Qt/5.10.1/mingw53_32/include/QtCore/QJsonDocument \
 		C:/Qt/5.10.1/mingw53_32/include/QtCore/qjsondocument.h \
 		../../threadpool/fileserver/request.h \
-		../../threadpool/fileserver/runnable.h \
 		../../threadpool/fileserver/requestdispatcherthread.h \
 		../../threadpool/fileserver/workerthread.h \
 		../../threadpool/fileserver/Request.h \
@@ -219,8 +218,9 @@ debug/moc_fileserver.cpp: C:/Qt/5.10.1/mingw53_32/include/QtCore/QObject \
 		C:/Qt/5.10.1/mingw53_32/include/QtCore/QSemaphore \
 		C:/Qt/5.10.1/mingw53_32/include/QtCore/qsemaphore.h \
 		../../threadpool/fileserver/runnabletask.h \
-		../../threadpool/fileserver/threadpool.h \
+		../../threadpool/fileserver/runnable.h \
 		C:/Qt/5.10.1/mingw53_32/include/QtCore/QMutex \
+		../../threadpool/fileserver/threadpool.h \
 		../../threadpool/fileserver/fileserver.h \
 		debug/moc_predefs.h \
 		C:/Qt/5.10.1/mingw53_32/bin/moc.exe
@@ -302,7 +302,6 @@ debug/moc_responsedispatcherthread.cpp: C:/Qt/5.10.1/mingw53_32/include/QtCore/Q
 		C:/Qt/5.10.1/mingw53_32/include/QtCore/qjsondocument.h \
 		../../threadpool/fileserver/request.h \
 		C:/Qt/5.10.1/mingw53_32/include/QtCore/QString \
-		../../threadpool/fileserver/runnable.h \
 		../../threadpool/fileserver/responsedispatcherthread.h \
 		debug/moc_predefs.h \
 		C:/Qt/5.10.1/mingw53_32/bin/moc.exe
@@ -384,15 +383,15 @@ debug/moc_requestdispatcherthread.cpp: C:/Qt/5.10.1/mingw53_32/include/QtCore/QO
 		C:/Qt/5.10.1/mingw53_32/include/QtCore/qjsondocument.h \
 		../../threadpool/fileserver/request.h \
 		C:/Qt/5.10.1/mingw53_32/include/QtCore/QString \
-		../../threadpool/fileserver/runnable.h \
 		../../threadpool/fileserver/workerthread.h \
 		../../threadpool/fileserver/Request.h \
 		../../threadpool/fileserver/requesthandler.h \
 		C:/Qt/5.10.1/mingw53_32/include/QtCore/QSemaphore \
 		C:/Qt/5.10.1/mingw53_32/include/QtCore/qsemaphore.h \
 		../../threadpool/fileserver/runnabletask.h \
-		../../threadpool/fileserver/threadpool.h \
+		../../threadpool/fileserver/runnable.h \
 		C:/Qt/5.10.1/mingw53_32/include/QtCore/QMutex \
+		../../threadpool/fileserver/threadpool.h \
 		../../threadpool/fileserver/requestdispatcherthread.h \
 		debug/moc_predefs.h \
 		C:/Qt/5.10.1/mingw53_32/bin/moc.exe
@@ -467,7 +466,6 @@ debug/moc_workerthread.cpp: C:/Qt/5.10.1/mingw53_32/include/QtCore/QObject \
 		C:/Qt/5.10.1/mingw53_32/include/QtCore/qsharedpointer_impl.h \
 		../../threadpool/fileserver/Request.h \
 		C:/Qt/5.10.1/mingw53_32/include/QtCore/QString \
-		../../threadpool/fileserver/runnable.h \
 		../../threadpool/fileserver/response.h \
 		C:/Qt/5.10.1/mingw53_32/include/QtCore/QJsonObject \
 		C:/Qt/5.10.1/mingw53_32/include/QtCore/qjsonobject.h \
@@ -480,6 +478,8 @@ debug/moc_workerthread.cpp: C:/Qt/5.10.1/mingw53_32/include/QtCore/QObject \
 		C:/Qt/5.10.1/mingw53_32/include/QtCore/QSemaphore \
 		C:/Qt/5.10.1/mingw53_32/include/QtCore/qsemaphore.h \
 		../../threadpool/fileserver/runnabletask.h \
+		../../threadpool/fileserver/runnable.h \
+		C:/Qt/5.10.1/mingw53_32/include/QtCore/QMutex \
 		../../threadpool/fileserver/workerthread.h \
 		debug/moc_predefs.h \
 		C:/Qt/5.10.1/mingw53_32/bin/moc.exe
@@ -588,7 +588,6 @@ debug/main.o: ../../threadpool/fileserver/main.cpp C:/Qt/5.10.1/mingw53_32/inclu
 		C:/Qt/5.10.1/mingw53_32/include/QtCore/QJsonDocument \
 		C:/Qt/5.10.1/mingw53_32/include/QtCore/qjsondocument.h \
 		../../threadpool/fileserver/request.h \
-		../../threadpool/fileserver/runnable.h \
 		../../threadpool/fileserver/requestdispatcherthread.h \
 		../../threadpool/fileserver/workerthread.h \
 		../../threadpool/fileserver/Request.h \
@@ -596,8 +595,9 @@ debug/main.o: ../../threadpool/fileserver/main.cpp C:/Qt/5.10.1/mingw53_32/inclu
 		C:/Qt/5.10.1/mingw53_32/include/QtCore/QSemaphore \
 		C:/Qt/5.10.1/mingw53_32/include/QtCore/qsemaphore.h \
 		../../threadpool/fileserver/runnabletask.h \
-		../../threadpool/fileserver/threadpool.h \
-		C:/Qt/5.10.1/mingw53_32/include/QtCore/QMutex
+		../../threadpool/fileserver/runnable.h \
+		C:/Qt/5.10.1/mingw53_32/include/QtCore/QMutex \
+		../../threadpool/fileserver/threadpool.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o debug\main.o ..\..\threadpool\fileserver\main.cpp
 
 debug/fileserver.o: ../../threadpool/fileserver/fileserver.cpp ../../threadpool/fileserver/fileserver.h \
@@ -680,7 +680,6 @@ debug/fileserver.o: ../../threadpool/fileserver/fileserver.cpp ../../threadpool/
 		C:/Qt/5.10.1/mingw53_32/include/QtCore/QJsonDocument \
 		C:/Qt/5.10.1/mingw53_32/include/QtCore/qjsondocument.h \
 		../../threadpool/fileserver/request.h \
-		../../threadpool/fileserver/runnable.h \
 		../../threadpool/fileserver/requestdispatcherthread.h \
 		../../threadpool/fileserver/workerthread.h \
 		../../threadpool/fileserver/Request.h \
@@ -688,8 +687,9 @@ debug/fileserver.o: ../../threadpool/fileserver/fileserver.cpp ../../threadpool/
 		C:/Qt/5.10.1/mingw53_32/include/QtCore/QSemaphore \
 		C:/Qt/5.10.1/mingw53_32/include/QtCore/qsemaphore.h \
 		../../threadpool/fileserver/runnabletask.h \
-		../../threadpool/fileserver/threadpool.h \
+		../../threadpool/fileserver/runnable.h \
 		C:/Qt/5.10.1/mingw53_32/include/QtCore/QMutex \
+		../../threadpool/fileserver/threadpool.h \
 		C:/Qt/5.10.1/mingw53_32/include/QtWebSockets/qwebsocketserver.h \
 		C:/Qt/5.10.1/mingw53_32/include/QtWebSockets/qwebsockets_global.h \
 		C:/Qt/5.10.1/mingw53_32/include/QtWebSockets/qwebsocketprotocol.h \
@@ -871,7 +871,6 @@ debug/requesthandler.o: ../../threadpool/fileserver/requesthandler.cpp C:/Qt/5.1
 		../../threadpool/fileserver/requesthandler.h \
 		../../threadpool/fileserver/request.h \
 		C:/Qt/5.10.1/mingw53_32/include/QtCore/QString \
-		../../threadpool/fileserver/runnable.h \
 		../../threadpool/fileserver/response.h \
 		C:/Qt/5.10.1/mingw53_32/include/QtCore/QJsonObject \
 		C:/Qt/5.10.1/mingw53_32/include/QtCore/qjsonobject.h \
@@ -962,8 +961,7 @@ debug/responsedispatcherthread.o: ../../threadpool/fileserver/responsedispatcher
 		C:/Qt/5.10.1/mingw53_32/include/QtCore/QJsonDocument \
 		C:/Qt/5.10.1/mingw53_32/include/QtCore/qjsondocument.h \
 		../../threadpool/fileserver/request.h \
-		C:/Qt/5.10.1/mingw53_32/include/QtCore/QString \
-		../../threadpool/fileserver/runnable.h
+		C:/Qt/5.10.1/mingw53_32/include/QtCore/QString
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o debug\responsedispatcherthread.o ..\..\threadpool\fileserver\responsedispatcherthread.cpp
 
 debug/requestdispatcherthread.o: ../../threadpool/fileserver/requestdispatcherthread.cpp ../../threadpool/fileserver/requestdispatcherthread.h \
@@ -1043,15 +1041,15 @@ debug/requestdispatcherthread.o: ../../threadpool/fileserver/requestdispatcherth
 		C:/Qt/5.10.1/mingw53_32/include/QtCore/qjsondocument.h \
 		../../threadpool/fileserver/request.h \
 		C:/Qt/5.10.1/mingw53_32/include/QtCore/QString \
-		../../threadpool/fileserver/runnable.h \
 		../../threadpool/fileserver/workerthread.h \
 		../../threadpool/fileserver/Request.h \
 		../../threadpool/fileserver/requesthandler.h \
 		C:/Qt/5.10.1/mingw53_32/include/QtCore/QSemaphore \
 		C:/Qt/5.10.1/mingw53_32/include/QtCore/qsemaphore.h \
 		../../threadpool/fileserver/runnabletask.h \
-		../../threadpool/fileserver/threadpool.h \
-		C:/Qt/5.10.1/mingw53_32/include/QtCore/QMutex
+		../../threadpool/fileserver/runnable.h \
+		C:/Qt/5.10.1/mingw53_32/include/QtCore/QMutex \
+		../../threadpool/fileserver/threadpool.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o debug\requestdispatcherthread.o ..\..\threadpool\fileserver\requestdispatcherthread.cpp
 
 debug/moc_fileserver.o: debug/moc_fileserver.cpp 
