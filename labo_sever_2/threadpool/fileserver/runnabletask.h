@@ -8,6 +8,7 @@
 #include "runnable.h"
 #include "requesthandler.h"
 #include <QDebug>
+#include <iostream>
 
 class RunnableTask : public Runnable {
 
@@ -17,9 +18,6 @@ class RunnableTask : public Runnable {
 private:
 
     QString idTask;                          //Task id
-    //static int nextId;                     //Next id to attribute
-
-
     Request* request;                        //Requête assignée au threadWorker
     AbstractBuffer<Response>* responses;     //Buffer de réponse pour savoir où déposer la réponse une fois la requête traitée
     bool hasDebugLog;                        //Variable utilisée pour obtenir des logs pendant le debugging
@@ -42,12 +40,12 @@ public:
 
     virtual ~RunnableTask() {
         delete requestHandler;
-       // qDebug() << id <<  "has finished";
     }
 
 protected:
     void run(){
         Response response = requestHandler->handle();                    //Récupération de la réponse à la requête
+        std::cout << response.getResponse().toStdString() << std::endl;
         responses->put(response);                                        //Transmission de la réponse au buffer de réponse
     }
 

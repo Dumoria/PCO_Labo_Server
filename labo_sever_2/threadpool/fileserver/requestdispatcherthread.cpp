@@ -5,8 +5,8 @@
 #include <QDebug>
 #include "threadpool.h"
 
-RequestDispatcherThread::RequestDispatcherThread(AbstractBuffer<Request>* requests, AbstractBuffer<Response>* responses, bool hasDebugLog): requests(requests), hasDebugLog(hasDebugLog) {
-    threadPool = new ThreadPool(10, hasDebugLog, responses);
+RequestDispatcherThread::RequestDispatcherThread(AbstractBuffer<Request>* requests, AbstractBuffer<Response>* responses, bool hasDebugLog): requests(requests), responses(responses), hasDebugLog(hasDebugLog) {
+    threadPool = new ThreadPool(10, hasDebugLog);
     if (hasDebugLog)
         qDebug() << "Created request dispatcher thread";
 }
@@ -19,7 +19,6 @@ void RequestDispatcherThread::run()
         Request requ = requests->get();   // block until a request is available
         if (hasDebugLog)
             qDebug() << "Got a request '" << requ.getFilePath() << "', starting new WorkerThread...";
-
 
         RunnableTask* task = new RunnableTask(&requ, responses, hasDebugLog);
         threadPool->start(task);

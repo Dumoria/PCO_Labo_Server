@@ -4,6 +4,8 @@
 #include "workerthread.h"
 #include "QSemaphore"
 #include "QMutex"
+
+
 //C:\Users\benja\OneDrive\Documents\HEIG\Git\PCO\PCO_Labo_Server\labo_sever_2\threadpool\fileserver\shakespeare.txt
 class ThreadPool
 {
@@ -16,7 +18,6 @@ private :
 
     std::list<WorkerThread*> threadPool;         //Liste des threads présents dans la threadPool
     std::list<WorkerThread*> availableThreads;   //Liste des threads disponibles dans la threadPool
-    AbstractBuffer<Response>* responses;        //Buffer de réponse pour savoir où déposer la réponse une fois la requête traitée
 
     QSemaphore wait;                            //Permet aux threads de la thread pool de faire une attente passive
     QMutex mutex;
@@ -28,7 +29,7 @@ public:
 
     }
 
-    ThreadPool(int maxThreadCount, bool hasDebugLog,  AbstractBuffer<Response>* responses) : maxThreadCount(maxThreadCount), hasDebugLog(hasDebugLog), responses(responses), wait(0), mutex(){
+    ThreadPool(int maxThreadCount, bool hasDebugLog) : maxThreadCount(maxThreadCount), hasDebugLog(hasDebugLog), wait(0), mutex(){
 
     }
 
