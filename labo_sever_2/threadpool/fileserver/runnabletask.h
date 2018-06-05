@@ -12,26 +12,20 @@
 
 class RunnableTask : public Runnable {
 
-    friend class WorkerThread;
-    friend class ThreadPool;
-
 private:
 
-    QString idTask;                          //Task id
+    QString idTask;
     Request* request;                        //Requête assignée au threadWorker
     AbstractBuffer<Response>* responses;     //Buffer de réponse pour savoir où déposer la réponse une fois la requête traitée
     bool hasDebugLog;                        //Variable utilisée pour obtenir des logs pendant le debugging
-    RequestHandler* requestHandler;          //Création d'un nouveau gestionnaire de requêtes
+    RequestHandler* requestHandler;          //Permet d'obtenir la réponse à la requête
 
 
 
 public:
 
-    RunnableTask(Request* request,  AbstractBuffer<Response>* responses, bool hasDebugLog): request(request), responses(responses), hasDebugLog(hasDebugLog){
+    RunnableTask(QString idTask, Request* request,  AbstractBuffer<Response>* responses, bool hasDebugLog): idTask(idTask), request(request), responses(responses), hasDebugLog(hasDebugLog){
         requestHandler = new RequestHandler(*request ,hasDebugLog);     //Création d'un nouveau gestionnaire de requête
-                                                                        //Gérer request de requestHandler en ptr
-        idTask = ("Task n°");// + nextId++);
-
     }
 
     Request* getRequest(){
@@ -42,7 +36,6 @@ public:
         delete requestHandler;
     }
 
-protected:
     void run(){
         Response response = requestHandler->handle();                    //Récupération de la réponse à la requête
         std::cout << response.getResponse().toStdString() << std::endl;

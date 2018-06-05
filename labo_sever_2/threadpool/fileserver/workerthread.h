@@ -29,7 +29,7 @@ private:
 
    std::list<WorkerThread*>* availableThreads;
 
-   bool hasDebugLog;                        //Variable utilisée pour obtenir des logs pendant le debugging
+   bool hasDebugLog;                             //Variable utilisée pour obtenir des logs pendant le debugging
 
 
 public:
@@ -53,11 +53,11 @@ public:
             task->run();
 
             mutex->lock();
-            availableThreads->push_back(this);
+            availableThreads->push_back(this);    //Signale sa disponibilité
             mutex->unlock();
 
-            condAvailbleThreads->wakeOne();
-            wait->acquire();
+            condAvailbleThreads->wakeOne();       //Signale sa terminaison
+            wait->acquire();                      //Attend qu'on le réveille
         }
     }
 

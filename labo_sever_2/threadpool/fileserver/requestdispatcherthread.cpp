@@ -13,6 +13,9 @@ RequestDispatcherThread::RequestDispatcherThread(AbstractBuffer<Request>* reques
 
 void RequestDispatcherThread::run()
 {
+    unsigned int nbRequetes;
+    QString idTask;
+
     while(true) {
         if (hasDebugLog)
             qDebug() << "Waiting for requests...";
@@ -20,7 +23,8 @@ void RequestDispatcherThread::run()
         if (hasDebugLog)
             qDebug() << "Got a request '" << requ.getFilePath() << "', starting new WorkerThread...";
 
-        RunnableTask* task = new RunnableTask(&requ, responses, hasDebugLog);
+        //idTask = std::itoa(nbRequetes++);
+        RunnableTask* task = new RunnableTask(idTask, &requ, responses, hasDebugLog);
         threadPool->start(task);
 
     }

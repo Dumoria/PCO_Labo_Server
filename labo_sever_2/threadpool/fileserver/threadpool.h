@@ -13,15 +13,15 @@ class ThreadPool
 
 private :
 
-    unsigned int maxThreadCount;                //Nombre maximum de thread dans la threadPool
+    unsigned int maxThreadCount;                 //Nombre maximum de thread dans la threadPool
     bool hasDebugLog;
 
     std::list<WorkerThread*> threadPool;         //Liste des threads présents dans la threadPool
     std::list<WorkerThread*> availableThreads;   //Liste des threads disponibles dans la threadPool
 
-    QSemaphore wait;                            //Permet aux threads de la thread pool de faire une attente passive
-    QMutex mutex;
-    QWaitCondition condAvailbleThreads;
+    QSemaphore wait;                             //Permet aux threads de la thread pool de faire une attente passive
+    QMutex mutex;                                //Sécurisation des variables locales
+    QWaitCondition condAvailbleThreads;          //Attendre la disponibilité d'un thread
 
 
 public:
@@ -34,11 +34,18 @@ public:
 
     }
 
-    ~ThreadPool(){                                                  //ATTENTION ev utiliser vector
-        for(WorkerThread* worker: threadPool){
-            worker->terminate();
-            delete worker;
+    ~ThreadPool(){
+
+        const int size = threadPool.size();
+        WorkerThread* tmp;
+
+        for(int i = 0; i < size; ++i){
+            tmp = threadPool.front();
+            tmp->terminate();
+            threadPool.pop_front();
+            delete tmp;
         }
+
     }
 
     /* Start a runnable. If a thread in the pool is avaible, assign the
@@ -47,7 +54,9 @@ public:
     thread is available and the pool is at max capacity, block the
     caller until a thread becomes available again.*/
     void start(Runnable* runnable) {
+
         mutex.lock();
+
         if(threadPool.size() < maxThreadCount){
             WorkerThread* worker = new WorkerThread(hasDebugLog, (RunnableTask*) runnable, &wait, &mutex, &availableThreads, &condAvailbleThreads);
             threadPool.push_back(worker);

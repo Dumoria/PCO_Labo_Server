@@ -33,7 +33,7 @@ public:
         delete[] elements;
     }
 
-    virtual T get(void) {
+    T get(void) {
         T item;
         waitNotEmpty.acquire();
         mutex.acquire();
@@ -45,7 +45,7 @@ public:
         return item;
     }
 
-    virtual void put(T item) {
+    void put(T item) {
         waitNotFull.acquire();
         mutex.acquire();
         --remainingSize;
@@ -55,7 +55,7 @@ public:
         mutex.release();
     }
 
-    virtual bool tryPut(T item){
+    bool tryPut(T item){
         mutex.acquire();
         if(!remainingSize){
             mutex.release();
