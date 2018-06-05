@@ -32,15 +32,6 @@ public:
         delete[] elements;
     }
 
-    virtual void put(T item) {
-        waitNotFull.acquire();
-        mutex.acquire();
-        elements[writePointer] = item;
-        writePointer = (writePointer + 1) % bufferSize;
-        waitNotEmpty.release();
-        mutex.release();
-    }
-
     virtual T get(void) {
         T item;
         waitNotEmpty.acquire();
@@ -51,6 +42,26 @@ public:
         mutex.release();
         return item;
     }
+
+    virtual void put(T item) {
+        waitNotFull.acquire();
+        mutex.acquire();
+        elements[writePointer] = item;
+        writePointer = (writePointer + 1) % bufferSize;
+        waitNotEmpty.release();
+        mutex.release();
+    }
+
+    virtual bool tryPut(T item){
+        //Demander partie bloquante et partie etc....
+        waitNotFull.acquire();
+        mutex.acquire();
+        elements[writePointer] = item;
+        writePointer = (writePointer + 1) % bufferSize;
+        waitNotEmpty.release();
+        mutex.release();
+    }
+
 };
 
 

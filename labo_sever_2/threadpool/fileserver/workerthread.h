@@ -8,6 +8,8 @@
 #include "response.h"
 #include "abstractbuffer.h"
 #include "requesthandler.h"
+#include "QSemaphore"
+#include "runnabletask.h"
 
 /* Cette classe permet de modeliser les thread
  * devant traîter les requêtes
@@ -17,21 +19,45 @@ class WorkerThread: public QThread
     Q_OBJECT
 
 private:
-   Request* request;                        //Requête assignée au threadWorker
-   AbstractBuffer<Response>* responses;     //Buffer de réponse pour savoir où déposer la réponse une fois la requête traitée
+
+   RunnableTask* task;
+   QSemaphore* wait;
+
+   std::list<WorkerThread*>* availableThreads;
+
    bool hasDebugLog;                        //Variable utilisée pour obtenir des logs pendant le debugging
    RequestHandler* requestHandler;          //Création d'un nouveau gestionnaire de requêtes
 
 public:
 
-    WorkerThread(Request* request,  AbstractBuffer<Response>* responses, bool hasDebugLog);
+    WorkerThread(bool hasDebugLog, RunnableTask* task, QSemaphore* wait,  std::list<WorkerThread*>* availableThreads): hasDebugLog(hasDebugLog), task(task), wait(wait), availableThreads(availableThreads) {
+        requestHandler = new RequestHandler(*(task->getRequest()) ,hasDebugLog);     //Création d'un nouveau gestionnaire de requête
+                                                                                     //Gérer request de requestHandler en ptr
+    }
 
+    ~WorkerThread(){
+        delete requestHandler;
+    }
 
-    virtual ~WorkerThread();
+    void assignRunnable(RunnableTask* task){
+        this->task = task;
+    }
 
-protected:
-    void run();
+    /* Le worker thread va executer les tâches qu'on
+     * lui donne puis attend qu'on lui signale l'arrivée
+     * d'une nouvelle tâche
+     */
+    void run(){
+        while(true){
+            task->setRequestHandlerFromCurrentThread(requestHandler);
+            task->run();
+            availableThreads->push_back(this);
+            wait->acquire();
+        }
+    }
 
 };
 
 #endif // WORKERTHREAD_H
+
+

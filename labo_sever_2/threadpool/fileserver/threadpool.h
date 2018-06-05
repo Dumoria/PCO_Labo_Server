@@ -2,6 +2,8 @@
 #define THREADPOOL_H
 
 #include "workerthread.h"
+#include "QSemaphore"
+#include "QMutex"
 
 class ThreadPool
 {
@@ -9,46 +11,45 @@ class ThreadPool
 
 private :
 
-    unsigned int maxThreadCount;
+    unsigned int maxThreadCount;                //Nombre maximum de thread dans la threadPool
+    bool hasDebugLog;
 
-    std::list<WorkerThread> threadPool;
-    std::list<WorkerThread> availableThreads;
+    std::list<WorkerThread*> threadPool;         //Liste des threads présents dans la threadPool
+    std::list<WorkerThread*> availableThreads;   //Liste des threads disponibles dans la threadPool
+    AbstractBuffer<Response>* responses;        //Buffer de réponse pour savoir où déposer la réponse une fois la requête traitée
+
+    QSemaphore wait;                            //Permet aux threads de la thread pool de faire une attente passive
+    QMutex mutex;
+    
 
 public:
 
-    ThreadPool(int maxThreadCount) : maxThreadCount(maxThreadCount), threadPool(){
+    ThreadPool(int maxThreadCount) : maxThreadCount(maxThreadCount), threadPool(), availableThreads(){
 
     }
 
-    /* Start a runnable. If a thread in the pool is avaible, assign the &
-    !runnable to it. If no thread is available but the pool can grow, &
-    !create a new pool thread and assign the runnable to it. If no &
-    !thread is available and the pool is at max capacity, block the &
-    !caller until a thread becomes available again.
+    ThreadPool(int maxThreadCount, bool hasDebugLog,  AbstractBuffer<Response>* responses) : maxThreadCount(maxThreadCount), hasDebugLog(hasDebugLog), threadPool(), availableThreads(), responses(responses), wait(0){
+    }
+    
 
-    Créer des threads et assigner au runnable
-
-    Modificer requestDispatcher pour utilisation de la threadPool et non création indefiniment
-    Modifer buffer prob pour assurer un non bloquage des requête mais ignore après un certain nb de bloqu (ou pres dans buffer, sais pas trop encore)
-
-*/
-
-    //Prob quelque chose du genre waitForAvailable
-
-    /* Passer list aux worker pour qu'ils s'ajoutent eux-même en fin si possible
-     * Eventuellement semaphore bloquant puis appelé depuis thread dispo
-     */
-
+    /* Start a runnable. If a thread in the pool is avaible, assign the
+    runnable to it. If no thread is available but the pool can grow,
+    create a new pool thread and assign the runnable to it. If no
+    thread is available and the pool is at max capacity, block the
+    caller until a thread becomes available again.*/
     void start(Runnable* runnable) {
+        mutex.lock();
         if(threadPool.size() < maxThreadCount){
-            threadPool.push_back(new WorkerThread(runnable)); //Check pour construction
+            WorkerThread* worker = new WorkerThread(hasDebugLog, (RunnableTask*) runnable, &wait, &availableThreads);
+            threadPool.push_back(worker);
+            worker->start();
         }else if(availableThreads.size()){
-            availableThreads.pop_front().assign(runnable);    //Check assign
-        }else{
-
+            availableThreads.front()->assignRunnable((RunnableTask*) runnable);
+            availableThreads.pop_front();
         }
+        mutex.unlock();
     }
-}
+};
 
 
 #endif // THREADPOOL_H

@@ -5,7 +5,6 @@ INPUT(
 ./release\requesthandler.o
 ./release\responsedispatcherthread.o
 ./release\requestdispatcherthread.o
-./release\workerthread.o
 ./release\moc_fileserver.o
 ./release\moc_responsedispatcherthread.o
 ./release\moc_requestdispatcherthread.o

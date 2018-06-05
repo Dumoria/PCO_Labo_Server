@@ -7,6 +7,7 @@
 #include "abstractbuffer.h"
 #include "response.h"
 #include "workerthread.h"
+#include "threadpool.h"
 #include <list>
 
 
@@ -21,7 +22,7 @@ class RequestDispatcherThread: public QThread
 private:
     AbstractBuffer<Request>* requests;          //Buffer de requêtes en attente
     AbstractBuffer<Response>* responses;        //Buffer de réponses en attente (pour transmettre au workers)
-    std::list<WorkerThread*> workersStarted;    //Liste des workerThread encore actifs (pour les kill)
+    ThreadPool* threadPool;
     bool hasDebugLog;                           //Variable utilisée pour obtenir des logs pendant le debugging
 
 
