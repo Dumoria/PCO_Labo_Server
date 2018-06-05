@@ -4,7 +4,7 @@
 #include "workerthread.h"
 #include "QSemaphore"
 #include "QMutex"
-
+#include "QWaitCondition"
 
 //C:\Users\benja\OneDrive\Documents\HEIG\Git\PCO\PCO_Labo_Server\labo_sever_2\threadpool\fileserver\shakespeare.txt
 class ThreadPool
@@ -21,19 +21,20 @@ private :
 
     QSemaphore wait;                            //Permet aux threads de la thread pool de faire une attente passive
     QMutex mutex;
+    QWaitCondition condAvailbleThreads;
 
 
 public:
 
-    ThreadPool(int maxThreadCount) : maxThreadCount(maxThreadCount), threadPool(), availableThreads(){
+    ThreadPool(int maxThreadCount) : maxThreadCount(maxThreadCount){
 
     }
 
-    ThreadPool(int maxThreadCount, bool hasDebugLog) : maxThreadCount(maxThreadCount), hasDebugLog(hasDebugLog), wait(0), mutex(){
+    ThreadPool(int maxThreadCount, bool hasDebugLog) : maxThreadCount(maxThreadCount), hasDebugLog(hasDebugLog), wait(0), mutex(), condAvailbleThreads(){
 
     }
 
-    ~ThreadPool(){                                                  //ATTENTION
+    ~ThreadPool(){                                                  //ATTENTION ev utiliser vector
         for(WorkerThread* worker: threadPool){
             worker->terminate();
             delete worker;
@@ -48,10 +49,15 @@ public:
     void start(Runnable* runnable) {
         mutex.lock();
         if(threadPool.size() < maxThreadCount){
-            WorkerThread* worker = new WorkerThread(hasDebugLog, (RunnableTask*) runnable, &wait, &mutex, &availableThreads);
+            WorkerThread* worker = new WorkerThread(hasDebugLog, (RunnableTask*) runnable, &wait, &mutex, &availableThreads, &condAvailbleThreads);
             threadPool.push_back(worker);
             worker->start();
-        }else if(availableThreads.size()){
+        }else{
+
+            while(!availableThreads.size()){
+                condAvailbleThreads.wait(&mutex);
+            }
+
             availableThreads.front()->assignRunnable((RunnableTask*) runnable);
             wait.release();
             availableThreads.pop_front();

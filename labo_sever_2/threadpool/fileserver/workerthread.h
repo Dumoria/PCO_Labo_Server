@@ -11,6 +11,8 @@
 #include "QSemaphore"
 #include "runnabletask.h"
 #include "QMutex"
+#include "QWaitCondition"
+
 /* Cette classe permet de modeliser les thread
  * devant traîter les requêtes
  */
@@ -23,6 +25,7 @@ private:
    RunnableTask* task;
    QSemaphore* wait;
    QMutex* mutex;
+   QWaitCondition* condAvailbleThreads;
 
    std::list<WorkerThread*>* availableThreads;
 
@@ -31,7 +34,7 @@ private:
 
 public:
 
-    WorkerThread(bool hasDebugLog, RunnableTask* task, QSemaphore* wait, QMutex* mutex, std::list<WorkerThread*>* availableThreads): hasDebugLog(hasDebugLog), task(task), wait(wait), mutex(mutex), availableThreads(availableThreads) {
+    WorkerThread(bool hasDebugLog, RunnableTask* task, QSemaphore* wait, QMutex* mutex, std::list<WorkerThread*>* availableThreads,  QWaitCondition* condAvailbleThreads): hasDebugLog(hasDebugLog), task(task), wait(wait), mutex(mutex), availableThreads(availableThreads), condAvailbleThreads(condAvailbleThreads){
     }
 
     ~WorkerThread(){
@@ -47,13 +50,13 @@ public:
      */
     void run(){
         while(true){
-
             task->run();
 
             mutex->lock();
             availableThreads->push_back(this);
             mutex->unlock();
 
+            condAvailbleThreads->wakeOne();
             wait->acquire();
         }
     }
