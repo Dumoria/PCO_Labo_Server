@@ -17,9 +17,10 @@ protected:
     int readPointer;
     int bufferSize;
     QSemaphore mutex, waitNotFull, waitNotEmpty;
+    int remainingSize;
 
 public:
-    Buffer(unsigned int size) : mutex(1), waitNotFull(size) {
+    Buffer(unsigned int size) : mutex(1), waitNotFull(size), remainingSize(size) {
         if ((elements = new T[size]) != 0) {
             writePointer = readPointer = 0;
             bufferSize = size;
@@ -38,6 +39,7 @@ public:
         mutex.acquire();
         item = elements[readPointer];
         readPointer = (readPointer + 1) % bufferSize;
+        ++remainingSize;
         waitNotFull.release();
         mutex.release();
         return item;
@@ -46,6 +48,7 @@ public:
     virtual void put(T item) {
         waitNotFull.acquire();
         mutex.acquire();
+        --remainingSize;
         elements[writePointer] = item;
         writePointer = (writePointer + 1) % bufferSize;
         waitNotEmpty.release();
@@ -53,13 +56,17 @@ public:
     }
 
     virtual bool tryPut(T item){
-        //Demander partie bloquante et partie etc....
-        waitNotFull.acquire();
         mutex.acquire();
+        if(!remainingSize){
+            mutex.release();
+            return false;
+        }
+        --remainingSize;
         elements[writePointer] = item;
         writePointer = (writePointer + 1) % bufferSize;
         waitNotEmpty.release();
         mutex.release();
+        return true;
     }
 
 };

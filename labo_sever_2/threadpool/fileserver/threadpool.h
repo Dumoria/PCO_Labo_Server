@@ -20,7 +20,7 @@ private :
 
     QSemaphore wait;                            //Permet aux threads de la thread pool de faire une attente passive
     QMutex mutex;
-    
+
 
 public:
 
@@ -28,11 +28,14 @@ public:
 
     }
 
-    ThreadPool(int maxThreadCount, bool hasDebugLog,  AbstractBuffer<Response>* responses) : maxThreadCount(maxThreadCount), hasDebugLog(hasDebugLog), threadPool(), availableThreads(), responses(responses), wait(0){
+    ThreadPool(int maxThreadCount, bool hasDebugLog,  AbstractBuffer<Response>* responses) : maxThreadCount(maxThreadCount), hasDebugLog(hasDebugLog), threadPool(), availableThreads(), responses(responses), wait(0), mutex(){
     }
-    
-    ~ThreadPool(){
-       //delete all ptr
+
+    ~ThreadPool(){                                                  //ATTENTION
+        for(WorkerThread* worker: threadPool){
+            worker->terminate();
+            delete worker;
+        }
     }
 
     /* Start a runnable. If a thread in the pool is avaible, assign the
@@ -43,11 +46,12 @@ public:
     void start(Runnable* runnable) {
         mutex.lock();
         if(threadPool.size() < maxThreadCount){
-           WorkerThread* worker = new WorkerThread(hasDebugLog, (RunnableTask*) runnable, &wait, &availableThreads);
+            WorkerThread* worker = new WorkerThread(hasDebugLog, (RunnableTask*) runnable, &wait, &mutex, &availableThreads);
             threadPool.push_back(worker);
             worker->start();
         }else if(availableThreads.size()){
             availableThreads.front()->assignRunnable((RunnableTask*) runnable);
+            wait.release();
             availableThreads.pop_front();
         }
         mutex.unlock();

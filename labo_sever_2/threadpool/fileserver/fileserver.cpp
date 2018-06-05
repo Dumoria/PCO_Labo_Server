@@ -111,7 +111,10 @@ void FileServer::processTextMessage(QString message)
         qDebug() << "Message received:" << message;
     if (pClient) {
         Request req(message, pClient->origin());
-        requests->put(req);
+        if(!requests->tryPut(req)){
+            pClient->sendTextMessage(Response(req, "server overloaded, try later").toJson());
+        }
+
     }
 }
 

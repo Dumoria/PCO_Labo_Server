@@ -1,8 +1,6 @@
 #ifndef REQUEST_H
 #define REQUEST_H
-
 #include <QString>
-#include "runnable.h"
 
 class Request {
 private:

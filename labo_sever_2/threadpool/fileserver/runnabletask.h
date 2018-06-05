@@ -1,11 +1,17 @@
-#ifndef RUNNABLETASK_H
-#define RUNNABLETASK_H
+#ifndef TASK_H
+#define TASK_H
+
 
 #include "request.h"
 #include "abstractbuffer.h"
 #include "requesthandler.h"
+#include "runnable.h"
+#include <QDebug>
 
-class RunnableTask : public Runnable{
+class RunnableTask : public Runnable {
+
+    friend class WorkerThread;
+    friend class ThreadPool;
 
 private:
 
@@ -37,18 +43,20 @@ public:
     }
 
     virtual ~RunnableTask() {
-
+       // qDebug() << id <<  "has finished";
     }
 
+protected:
     void run(){
         Response response = requestHandler->handle();                    //Récupération de la réponse à la requête
         responses->put(response);                                        //Transmission de la réponse au buffer de réponse
     }
 
-    virtual QString id(){
+     QString id(){
         return idTask;
     }
 
 };
 
-#endif // RUNNABLETASK_H
+
+#endif // TASK_H

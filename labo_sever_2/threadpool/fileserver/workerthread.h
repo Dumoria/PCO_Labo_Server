@@ -10,7 +10,7 @@
 #include "requesthandler.h"
 #include "QSemaphore"
 #include "runnabletask.h"
-
+#include "QMutex"
 /* Cette classe permet de modeliser les thread
  * devant traîter les requêtes
  */
@@ -22,6 +22,7 @@ private:
 
    RunnableTask* task;
    QSemaphore* wait;
+   QMutex* mutex;
 
    std::list<WorkerThread*>* availableThreads;
 
@@ -30,7 +31,7 @@ private:
 
 public:
 
-    WorkerThread(bool hasDebugLog, RunnableTask* task, QSemaphore* wait,  std::list<WorkerThread*>* availableThreads): hasDebugLog(hasDebugLog), task(task), wait(wait), availableThreads(availableThreads) {
+    WorkerThread(bool hasDebugLog, RunnableTask* task, QSemaphore* wait, QMutex* mutex, std::list<WorkerThread*>* availableThreads): hasDebugLog(hasDebugLog), task(task), wait(wait), mutex(mutex), availableThreads(availableThreads) {
         requestHandler = new RequestHandler(*(task->getRequest()) ,hasDebugLog);     //Création d'un nouveau gestionnaire de requête
                                                                                      //Gérer request de requestHandler en ptr
     }
@@ -51,7 +52,11 @@ public:
         while(true){
             task->setRequestHandlerFromCurrentThread(requestHandler);
             task->run();
+
+            mutex->lock();
             availableThreads->push_back(this);
+            mutex->unlock();
+
             wait->acquire();
         }
     }

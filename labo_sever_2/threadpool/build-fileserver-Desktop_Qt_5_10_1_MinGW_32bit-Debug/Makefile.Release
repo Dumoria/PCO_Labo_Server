@@ -212,7 +212,6 @@ release/moc_fileserver.cpp: C:/Qt/5.10.1/mingw53_32/include/QtCore/QObject \
 		C:/Qt/5.10.1/mingw53_32/include/QtCore/QJsonDocument \
 		C:/Qt/5.10.1/mingw53_32/include/QtCore/qjsondocument.h \
 		../fileserver/request.h \
-		../fileserver/runnable.h \
 		../fileserver/requestdispatcherthread.h \
 		../fileserver/workerthread.h \
 		../fileserver/Request.h \
@@ -220,8 +219,8 @@ release/moc_fileserver.cpp: C:/Qt/5.10.1/mingw53_32/include/QtCore/QObject \
 		C:/Qt/5.10.1/mingw53_32/include/QtCore/QSemaphore \
 		C:/Qt/5.10.1/mingw53_32/include/QtCore/qsemaphore.h \
 		../fileserver/runnabletask.h \
-		../fileserver/threadpool.h \
 		C:/Qt/5.10.1/mingw53_32/include/QtCore/QMutex \
+		../fileserver/threadpool.h \
 		../fileserver/fileserver.h \
 		release/moc_predefs.h \
 		C:/Qt/5.10.1/mingw53_32/bin/moc.exe
@@ -303,7 +302,6 @@ release/moc_responsedispatcherthread.cpp: C:/Qt/5.10.1/mingw53_32/include/QtCore
 		C:/Qt/5.10.1/mingw53_32/include/QtCore/qjsondocument.h \
 		../fileserver/request.h \
 		C:/Qt/5.10.1/mingw53_32/include/QtCore/QString \
-		../fileserver/runnable.h \
 		../fileserver/responsedispatcherthread.h \
 		release/moc_predefs.h \
 		C:/Qt/5.10.1/mingw53_32/bin/moc.exe
@@ -385,15 +383,14 @@ release/moc_requestdispatcherthread.cpp: C:/Qt/5.10.1/mingw53_32/include/QtCore/
 		C:/Qt/5.10.1/mingw53_32/include/QtCore/qjsondocument.h \
 		../fileserver/request.h \
 		C:/Qt/5.10.1/mingw53_32/include/QtCore/QString \
-		../fileserver/runnable.h \
 		../fileserver/workerthread.h \
 		../fileserver/Request.h \
 		../fileserver/requesthandler.h \
 		C:/Qt/5.10.1/mingw53_32/include/QtCore/QSemaphore \
 		C:/Qt/5.10.1/mingw53_32/include/QtCore/qsemaphore.h \
 		../fileserver/runnabletask.h \
-		../fileserver/threadpool.h \
 		C:/Qt/5.10.1/mingw53_32/include/QtCore/QMutex \
+		../fileserver/threadpool.h \
 		../fileserver/requestdispatcherthread.h \
 		release/moc_predefs.h \
 		C:/Qt/5.10.1/mingw53_32/bin/moc.exe
@@ -468,7 +465,6 @@ release/moc_workerthread.cpp: C:/Qt/5.10.1/mingw53_32/include/QtCore/QObject \
 		C:/Qt/5.10.1/mingw53_32/include/QtCore/qsharedpointer_impl.h \
 		../fileserver/Request.h \
 		C:/Qt/5.10.1/mingw53_32/include/QtCore/QString \
-		../fileserver/runnable.h \
 		../fileserver/response.h \
 		C:/Qt/5.10.1/mingw53_32/include/QtCore/QJsonObject \
 		C:/Qt/5.10.1/mingw53_32/include/QtCore/qjsonobject.h \
@@ -481,6 +477,7 @@ release/moc_workerthread.cpp: C:/Qt/5.10.1/mingw53_32/include/QtCore/QObject \
 		C:/Qt/5.10.1/mingw53_32/include/QtCore/QSemaphore \
 		C:/Qt/5.10.1/mingw53_32/include/QtCore/qsemaphore.h \
 		../fileserver/runnabletask.h \
+		C:/Qt/5.10.1/mingw53_32/include/QtCore/QMutex \
 		../fileserver/workerthread.h \
 		release/moc_predefs.h \
 		C:/Qt/5.10.1/mingw53_32/bin/moc.exe
@@ -589,7 +586,6 @@ release/main.o: ../fileserver/main.cpp C:/Qt/5.10.1/mingw53_32/include/QtCore/QC
 		C:/Qt/5.10.1/mingw53_32/include/QtCore/QJsonDocument \
 		C:/Qt/5.10.1/mingw53_32/include/QtCore/qjsondocument.h \
 		../fileserver/request.h \
-		../fileserver/runnable.h \
 		../fileserver/requestdispatcherthread.h \
 		../fileserver/workerthread.h \
 		../fileserver/Request.h \
@@ -597,8 +593,8 @@ release/main.o: ../fileserver/main.cpp C:/Qt/5.10.1/mingw53_32/include/QtCore/QC
 		C:/Qt/5.10.1/mingw53_32/include/QtCore/QSemaphore \
 		C:/Qt/5.10.1/mingw53_32/include/QtCore/qsemaphore.h \
 		../fileserver/runnabletask.h \
-		../fileserver/threadpool.h \
-		C:/Qt/5.10.1/mingw53_32/include/QtCore/QMutex
+		C:/Qt/5.10.1/mingw53_32/include/QtCore/QMutex \
+		../fileserver/threadpool.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o release\main.o ..\fileserver\main.cpp
 
 release/fileserver.o: ../fileserver/fileserver.cpp ../fileserver/fileserver.h \
@@ -681,7 +677,6 @@ release/fileserver.o: ../fileserver/fileserver.cpp ../fileserver/fileserver.h \
 		C:/Qt/5.10.1/mingw53_32/include/QtCore/QJsonDocument \
 		C:/Qt/5.10.1/mingw53_32/include/QtCore/qjsondocument.h \
 		../fileserver/request.h \
-		../fileserver/runnable.h \
 		../fileserver/requestdispatcherthread.h \
 		../fileserver/workerthread.h \
 		../fileserver/Request.h \
@@ -689,8 +684,8 @@ release/fileserver.o: ../fileserver/fileserver.cpp ../fileserver/fileserver.h \
 		C:/Qt/5.10.1/mingw53_32/include/QtCore/QSemaphore \
 		C:/Qt/5.10.1/mingw53_32/include/QtCore/qsemaphore.h \
 		../fileserver/runnabletask.h \
-		../fileserver/threadpool.h \
 		C:/Qt/5.10.1/mingw53_32/include/QtCore/QMutex \
+		../fileserver/threadpool.h \
 		C:/Qt/5.10.1/mingw53_32/include/QtWebSockets/qwebsocketserver.h \
 		C:/Qt/5.10.1/mingw53_32/include/QtWebSockets/qwebsockets_global.h \
 		C:/Qt/5.10.1/mingw53_32/include/QtWebSockets/qwebsocketprotocol.h \
@@ -872,7 +867,6 @@ release/requesthandler.o: ../fileserver/requesthandler.cpp C:/Qt/5.10.1/mingw53_
 		../fileserver/requesthandler.h \
 		../fileserver/request.h \
 		C:/Qt/5.10.1/mingw53_32/include/QtCore/QString \
-		../fileserver/runnable.h \
 		../fileserver/response.h \
 		C:/Qt/5.10.1/mingw53_32/include/QtCore/QJsonObject \
 		C:/Qt/5.10.1/mingw53_32/include/QtCore/qjsonobject.h \
@@ -963,8 +957,7 @@ release/responsedispatcherthread.o: ../fileserver/responsedispatcherthread.cpp .
 		C:/Qt/5.10.1/mingw53_32/include/QtCore/QJsonDocument \
 		C:/Qt/5.10.1/mingw53_32/include/QtCore/qjsondocument.h \
 		../fileserver/request.h \
-		C:/Qt/5.10.1/mingw53_32/include/QtCore/QString \
-		../fileserver/runnable.h
+		C:/Qt/5.10.1/mingw53_32/include/QtCore/QString
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o release\responsedispatcherthread.o ..\fileserver\responsedispatcherthread.cpp
 
 release/requestdispatcherthread.o: ../fileserver/requestdispatcherthread.cpp ../fileserver/requestdispatcherthread.h \
@@ -1044,15 +1037,14 @@ release/requestdispatcherthread.o: ../fileserver/requestdispatcherthread.cpp ../
 		C:/Qt/5.10.1/mingw53_32/include/QtCore/qjsondocument.h \
 		../fileserver/request.h \
 		C:/Qt/5.10.1/mingw53_32/include/QtCore/QString \
-		../fileserver/runnable.h \
 		../fileserver/workerthread.h \
 		../fileserver/Request.h \
 		../fileserver/requesthandler.h \
 		C:/Qt/5.10.1/mingw53_32/include/QtCore/QSemaphore \
 		C:/Qt/5.10.1/mingw53_32/include/QtCore/qsemaphore.h \
 		../fileserver/runnabletask.h \
-		../fileserver/threadpool.h \
-		C:/Qt/5.10.1/mingw53_32/include/QtCore/QMutex
+		C:/Qt/5.10.1/mingw53_32/include/QtCore/QMutex \
+		../fileserver/threadpool.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o release\requestdispatcherthread.o ..\fileserver\requestdispatcherthread.cpp
 
 release/moc_fileserver.o: release/moc_fileserver.cpp 
