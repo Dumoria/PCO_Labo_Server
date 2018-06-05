@@ -13,6 +13,10 @@ public:
     RequestHandler(Request request, bool hasDebugLog): request(request), hasDebugLog(hasDebugLog) {}
 
     Response handle();
+
+    ~RequestHandler(){
+
+    }
 };
 
 #endif // REQUESTHANDLER_H

@@ -21,8 +21,8 @@ void RequestDispatcherThread::run()
             qDebug() << "Got a request '" << requ.getFilePath() << "', starting new WorkerThread...";
 
 
-        RunnableTask task(&requ, responses, hasDebugLog);
-        threadPool->start(&task);
+        RunnableTask* task = new RunnableTask(&requ, responses, hasDebugLog);
+        threadPool->start(task);
 
     }
 }
