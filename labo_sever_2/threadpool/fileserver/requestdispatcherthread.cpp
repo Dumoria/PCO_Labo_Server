@@ -28,5 +28,5 @@ void RequestDispatcherThread::run()
 }
 
 RequestDispatcherThread::~RequestDispatcherThread(){
-
+    delete threadPool;
 }

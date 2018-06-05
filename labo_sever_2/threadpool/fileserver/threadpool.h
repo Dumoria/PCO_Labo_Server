@@ -31,6 +31,9 @@ public:
     ThreadPool(int maxThreadCount, bool hasDebugLog,  AbstractBuffer<Response>* responses) : maxThreadCount(maxThreadCount), hasDebugLog(hasDebugLog), threadPool(), availableThreads(), responses(responses), wait(0){
     }
     
+    ~ThreadPool(){
+       //delete all ptr
+    }
 
     /* Start a runnable. If a thread in the pool is avaible, assign the
     runnable to it. If no thread is available but the pool can grow,
@@ -40,7 +43,7 @@ public:
     void start(Runnable* runnable) {
         mutex.lock();
         if(threadPool.size() < maxThreadCount){
-            WorkerThread* worker = new WorkerThread(hasDebugLog, (RunnableTask*) runnable, &wait, &availableThreads);
+           WorkerThread* worker = new WorkerThread(hasDebugLog, (RunnableTask*) runnable, &wait, &availableThreads);
             threadPool.push_back(worker);
             worker->start();
         }else if(availableThreads.size()){
