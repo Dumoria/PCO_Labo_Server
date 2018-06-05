@@ -4,7 +4,7 @@
 #include "workerthread.h"
 #include "QSemaphore"
 #include "QMutex"
-
+//C:\Users\benja\OneDrive\Documents\HEIG\Git\PCO\PCO_Labo_Server\labo_sever_2\threadpool\fileserver\shakespeare.txt
 class ThreadPool
 {
 
