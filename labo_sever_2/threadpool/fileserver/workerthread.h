@@ -16,7 +16,7 @@
  */
 class WorkerThread: public QThread
 {
-    Q_OBJECT
+   Q_OBJECT
 
 private:
 
@@ -27,17 +27,14 @@ private:
    std::list<WorkerThread*>* availableThreads;
 
    bool hasDebugLog;                        //Variable utilisée pour obtenir des logs pendant le debugging
-   RequestHandler* requestHandler;          //Création d'un nouveau gestionnaire de requêtes
+
 
 public:
 
     WorkerThread(bool hasDebugLog, RunnableTask* task, QSemaphore* wait, QMutex* mutex, std::list<WorkerThread*>* availableThreads): hasDebugLog(hasDebugLog), task(task), wait(wait), mutex(mutex), availableThreads(availableThreads) {
-        requestHandler = new RequestHandler(*(task->getRequest()) ,hasDebugLog);     //Création d'un nouveau gestionnaire de requête
-                                                                                     //Gérer request de requestHandler en ptr
     }
 
     ~WorkerThread(){
-        delete requestHandler;
     }
 
     void assignRunnable(RunnableTask* task){
@@ -50,7 +47,7 @@ public:
      */
     void run(){
         while(true){
-            task->setRequestHandlerFromCurrentThread(requestHandler);
+
             task->run();
 
             mutex->lock();

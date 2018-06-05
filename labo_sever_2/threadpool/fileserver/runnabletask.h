@@ -6,6 +6,7 @@
 #include "abstractbuffer.h"
 #include "requesthandler.h"
 #include "runnable.h"
+#include "requesthandler.h"
 #include <QDebug>
 
 class RunnableTask : public Runnable {
@@ -29,6 +30,8 @@ private:
 public:
 
     RunnableTask(Request* request,  AbstractBuffer<Response>* responses, bool hasDebugLog): request(request), responses(responses), hasDebugLog(hasDebugLog){
+        requestHandler = new RequestHandler(*request ,hasDebugLog);     //Création d'un nouveau gestionnaire de requête
+                                                                        //Gérer request de requestHandler en ptr
         idTask = ("Task n°");// + nextId++);
 
     }
@@ -37,12 +40,8 @@ public:
         return request;
     }
 
-
-    void setRequestHandlerFromCurrentThread(RequestHandler* requestHandler){
-        this->requestHandler = requestHandler;
-    }
-
     virtual ~RunnableTask() {
+        delete requestHandler;
        // qDebug() << id <<  "has finished";
     }
 
